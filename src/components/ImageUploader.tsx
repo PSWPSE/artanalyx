@@ -57,9 +57,10 @@ export function ImageUploader() {
       }
 
       setUploadedImage(result.data.url);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Upload error:', error);
-      setError(error.message || ERROR_MESSAGES.UPLOAD_FAILED);
+      const errorMessage = error instanceof Error ? error.message : ERROR_MESSAGES.UPLOAD_FAILED;
+      setError(errorMessage);
       setPreview(null);
     } finally {
       setUploading(false);

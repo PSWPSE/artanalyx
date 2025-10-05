@@ -79,10 +79,11 @@ export default function Home() {
         setProgress(0);
       }, 500);
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       clearInterval(progressInterval);
       console.error('Analysis error:', error);
-      setError(error.message || ERROR_MESSAGES.ANALYSIS_FAILED);
+      const errorMessage = error instanceof Error ? error.message : ERROR_MESSAGES.ANALYSIS_FAILED;
+      setError(errorMessage);
       setUploadStatus('error');
       setProgress(0);
     }

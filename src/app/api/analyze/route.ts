@@ -3,6 +3,7 @@ import { analyzeChildrenArtwork, determineAgeGroup } from '@/lib/openai';
 import { prisma } from '@/lib/database';
 import { ERROR_MESSAGES } from '@/lib/constants';
 import { AnalysisRequest } from '@/types';
+import { Prisma } from '@prisma/client';
 
 // Rate limiting을 위한 간단한 메모리 캐시
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -81,7 +82,7 @@ export async function POST(request: NextRequest) {
           childAge,
           childAgeGroup: ageGroup,
           imageUrl,
-          analysisResult: analysisResult as any,
+          analysisResult: analysisResult as Prisma.InputJsonValue,
           sessionId,
         },
       });
@@ -131,12 +132,13 @@ export async function POST(request: NextRequest) {
       },
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Analysis error:', error);
+    const errorMessage = error instanceof Error ? error.message : ERROR_MESSAGES.ANALYSIS_FAILED;
     return NextResponse.json(
       { 
         success: false, 
-        error: error.message || ERROR_MESSAGES.ANALYSIS_FAILED 
+        error: errorMessage
       },
       { status: 500 }
     );
