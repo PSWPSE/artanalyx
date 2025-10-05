@@ -1,0 +1,175 @@
+---
+alwaysApply: true
+description: 아동 미술 심리 분석 서비스 개발 가이드라인
+---
+
+# 아동 미술 심리 분석 서비스 개발 가이드
+
+## 프로젝트 개요
+영유아, 아동, 초등학생의 그림 작품을 AI로 분석하여 전문가 수준의 미술 심리 분석 결과를 제공하는 상용 서비스
+
+## 기술 스택 및 아키텍처
+
+### Frontend
+- **Framework**: Next.js 14+ (App Router)
+- **Styling**: Tailwind CSS + Shadcn/ui
+- **State Management**: Zustand
+- **Image Handling**: Next.js Image + react-dropzone
+- **Charts**: Recharts
+
+### Backend (Serverless)
+- **API**: Next.js API Routes
+- **Database**: Supabase (PostgreSQL)
+- **File Storage**: Vercel Blob
+- **Authentication**: NextAuth.js (필요시)
+
+### AI Integration
+- **Vision API**: OpenAI GPT-4V 또는 Claude 3 Vision
+- **Image Processing**: Sharp
+- **Rate Limiting**: 내장 구현
+
+### 배포 및 수익화
+- **Hosting**: Vercel
+- **Analytics**: Vercel Analytics + Google Analytics
+- **Monetization**: Google AdSense
+
+## 개발 원칙
+
+### 1. 사용자 경험 우선
+- 단순하고 직관적인 인터페이스
+- 빠른 로딩 시간 (3초 이내)
+- 모바일 우선 반응형 디자인
+- 접근성 고려 (WCAG 2.1 AA 준수)
+
+### 2. 데이터 보안 및 프라이버시
+- 업로드된 이미지는 분석 후 자동 삭제 (24시간 이내)
+- 개인정보 수집 최소화
+- GDPR 및 개인정보보호법 준수
+- 안전한 파일 업로드 검증
+
+### 3. AI 분석 품질 관리
+- 연령대별 차별화된 분석 관점
+- 전문적이면서도 이해하기 쉬운 언어 사용
+- 부정적 표현 지양, 건설적 관찰 중심
+- 분석 결과의 일관성 유지
+
+## 코딩 컨벤션
+
+### TypeScript
+```typescript
+// 인터페이스 정의
+interface AnalysisResult {
+  childAge: number;
+  ageGroup: 'infant' | 'child' | 'elementary';
+  insights: {
+    emotional: string;
+    cognitive: string;
+    creative: string;
+    developmental: string;
+  };
+  recommendations: string[];
+}
+```
+
+### 컴포넌트 구조
+```
+components/
+├── ui/           # Shadcn/ui 기본 컴포넌트
+├── forms/        # 폼 관련 컴포넌트
+├── analysis/     # 분석 관련 컴포넌트
+└── layout/       # 레이아웃 컴포넌트
+```
+
+### API 구조
+```
+app/api/
+├── upload/       # 이미지 업로드
+├── analyze/      # AI 분석 실행
+├── results/      # 분석 결과 조회
+└── health/       # 헬스체크
+```
+
+## 연령대별 분석 기준
+
+### 영유아 (2-4세)
+- **발달 단계**: 대근육/소근육 발달, 색채 인식
+- **감정 표현**: 기본 감정 표현 방식
+- **창의성**: 자유로운 표현력, 상상력
+
+### 아동 (5-7세)  
+- **인지 발달**: 형태 인식, 공간 감각
+- **사회성**: 가족/친구 관계 표현
+- **학습 준비도**: 집중력, 과제 수행 능력
+
+### 초등학생 (8-12세)
+- **자아 개념**: 자기 표현, 정체성 형성
+- **학습 능력**: 계획성, 완성도
+- **대인 관계**: 또래 관계, 사회적 상황 이해
+
+## 성능 최적화 가이드
+
+### 이미지 처리
+- 업로드 파일 크기 제한: 10MB
+- 지원 포맷: JPG, PNG, WEBP
+- 자동 리사이징: 최대 1920x1080
+- 압축 최적화 적용
+
+### API 성능
+- 응답 시간 목표: 5초 이내
+- Rate Limiting: IP당 시간당 10회
+- 캐싱 전략: 분석 결과 24시간 캐시
+- 에러 핸들링: 사용자 친화적 메시지
+
+### SEO 최적화
+- 메타 태그 최적화
+- 구조화된 데이터 마크업
+- 사이트맵 자동 생성
+- 페이지 속도 최적화
+
+## 보안 체크리스트
+
+### 파일 업로드 보안
+- [ ] 파일 타입 검증
+- [ ] 파일 크기 제한
+- [ ] 악성 코드 스캔
+- [ ] 안전한 파일명 생성
+
+### API 보안
+- [ ] Rate Limiting 구현
+- [ ] CORS 설정
+- [ ] API 키 보안 관리
+- [ ] 입력 데이터 검증
+
+### 데이터 보안
+- [ ] 데이터베이스 암호화
+- [ ] 개인정보 익명화
+- [ ] 자동 데이터 삭제
+- [ ] 백업 및 복구 계획
+
+## 배포 체크리스트
+
+### Pre-deployment
+- [ ] 모든 테스트 통과
+- [ ] 성능 테스트 완료
+- [ ] 보안 스캔 통과
+- [ ] 환경변수 설정 확인
+
+### Post-deployment
+- [ ] 모니터링 설정
+- [ ] 애드센스 연동
+- [ ] Analytics 연동
+- [ ] 에러 추적 설정
+
+## 지속적인 개선
+
+### 사용자 피드백
+- 분석 결과 만족도 조사
+- 사용성 개선 사항 수집
+- A/B 테스트를 통한 UI 최적화
+
+### 기술적 개선
+- AI 모델 성능 모니터링
+- 응답 시간 최적화
+- 새로운 분석 기능 추가
+
+이 가이드라인을 따라 일관되고 안정적인 서비스 개발을 진행하세요.

@@ -1,0 +1,41 @@
+// Prisma Schema for Vercel Postgres
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL") // Vercel Postgres URL
+  directUrl = env("POSTGRES_URL_NON_POOLING") // Direct connection for migrations
+}
+
+// 분석 결과 저장 테이블
+model Analysis {
+  id            String   @id @default(uuid())
+  childAge      Int      @map("child_age")
+  childAgeGroup String   @map("child_age_group") // 'infant' | 'child' | 'elementary'
+  imageUrl      String   @map("image_url")
+  analysisResult Json    @map("analysis_result")
+  sessionId     String   @map("session_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([sessionId])
+  @@index([createdAt])
+  @@map("analyses")
+}
+
+// 사용량 추적 테이블
+model UsageTracking {
+  id            String   @id @default(uuid())
+  ipAddress     String   @map("ip_address")
+  requestsCount Int      @default(1) @map("requests_count")
+  lastRequest   DateTime @map("last_request")
+  date          DateTime
+
+  @@unique([ipAddress, date])
+  @@index([date])
+  @@index([ipAddress])
+  @@map("usage_tracking")
+}
+
