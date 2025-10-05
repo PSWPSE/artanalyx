@@ -41,18 +41,26 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
       </Card>
 
       {/* 주요 인사이트 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-6">
         {Object.entries(result.insights).map(([key, value]) => (
-          <Card key={key} className="p-5 hover:shadow-md transition-shadow">
-            <div className="flex items-start gap-3">
-              <div className="mt-1">
+          <Card key={key} className="p-8 hover:shadow-lg transition-shadow border-2">
+            <div className="flex items-start gap-4">
+              <div className="mt-1.5 flex-shrink-0">
                 {insightIcons[key as keyof typeof insightIcons]}
               </div>
               <div className="flex-1">
-                <h3 className="font-semibold text-gray-900 mb-2">
+                <h3 className="font-bold text-xl text-gray-900 mb-4 flex items-center gap-2">
                   {insightLabels[key as keyof typeof insightLabels]}
                 </h3>
-                <p className="text-sm text-gray-700 leading-relaxed">{value}</p>
+                <p 
+                  className="text-base text-gray-800 leading-loose"
+                  dangerouslySetInnerHTML={{
+                    __html: value.replace(
+                      /([가-힣A-Za-z]+)\(([^)]+)\)/g,
+                      '<span class="inline-block"><strong class="text-blue-700 font-semibold">$1</strong><span class="text-sm text-gray-600 bg-blue-50 px-2 py-0.5 rounded ml-1">($2)</span></span>'
+                    )
+                  }}
+                />
               </div>
             </div>
           </Card>
@@ -60,64 +68,66 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
       </div>
 
       {/* 강점 */}
-      <Card className="p-6">
-        <h3 className="font-semibold text-lg text-gray-900 mb-3 flex items-center gap-2">
-          <span className="text-green-500">✨</span> 발견된 강점
+      <Card className="p-8 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200">
+        <h3 className="font-bold text-2xl text-gray-900 mb-5 flex items-center gap-3">
+          <span className="text-3xl">✨</span> 발견된 강점
         </h3>
-        <ul className="space-y-2">
+        <ul className="space-y-4">
           {result.strengths.map((strength, index) => (
-            <li key={index} className="flex items-start gap-2 text-sm text-gray-700">
-              <span className="text-green-500 mt-0.5">•</span>
-              <span>{strength}</span>
+            <li key={index} className="flex items-start gap-3">
+              <span className="text-green-600 text-xl font-bold mt-0.5 flex-shrink-0">•</span>
+              <span className="text-base text-gray-800 leading-relaxed font-medium">{strength}</span>
             </li>
           ))}
         </ul>
       </Card>
 
       {/* 발전 가능 영역 */}
-      <Card className="p-6">
-        <h3 className="font-semibold text-lg text-gray-900 mb-3 flex items-center gap-2">
-          <span className="text-blue-500">🌱</span> 발전 가능 영역
+      <Card className="p-8 bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200">
+        <h3 className="font-bold text-2xl text-gray-900 mb-5 flex items-center gap-3">
+          <span className="text-3xl">🌱</span> 발전 가능 영역
         </h3>
-        <ul className="space-y-2">
+        <ul className="space-y-4">
           {result.areasForGrowth.map((area, index) => (
-            <li key={index} className="flex items-start gap-2 text-sm text-gray-700">
-              <span className="text-blue-500 mt-0.5">•</span>
-              <span>{area}</span>
+            <li key={index} className="flex items-start gap-3">
+              <span className="text-blue-600 text-xl font-bold mt-0.5 flex-shrink-0">•</span>
+              <span className="text-base text-gray-800 leading-relaxed font-medium">{area}</span>
             </li>
           ))}
         </ul>
       </Card>
 
       {/* 추천사항 */}
-      <Card className="p-6">
-        <h3 className="font-semibold text-lg text-gray-900 mb-3 flex items-center gap-2">
-          <span className="text-purple-500">💡</span> 구체적 추천사항
+      <Card className="p-8 bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
+        <h3 className="font-bold text-2xl text-gray-900 mb-5 flex items-center gap-3">
+          <span className="text-3xl">💡</span> 구체적 추천사항
         </h3>
-        <ul className="space-y-2">
+        <ul className="space-y-5">
           {result.recommendations.map((rec, index) => (
-            <li key={index} className="flex items-start gap-2 text-sm text-gray-700">
-              <span className="text-purple-500 mt-0.5">{index + 1}.</span>
-              <span>{rec}</span>
+            <li key={index} className="flex items-start gap-4">
+              <span className="text-purple-600 text-xl font-bold flex-shrink-0 bg-purple-100 w-8 h-8 rounded-full flex items-center justify-center">
+                {index + 1}
+              </span>
+              <span className="text-base text-gray-800 leading-relaxed font-medium pt-0.5">{rec}</span>
             </li>
           ))}
         </ul>
       </Card>
 
       {/* 부모님을 위한 가이드 */}
-      <Card className="p-6 bg-gradient-to-r from-amber-50 to-orange-50">
-        <h3 className="font-semibold text-lg text-gray-900 mb-3 flex items-center gap-2">
-          <span className="text-orange-500">👨‍👩‍👧</span> 부모님을 위한 가이드
+      <Card className="p-8 bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-orange-300">
+        <h3 className="font-bold text-2xl text-gray-900 mb-5 flex items-center gap-3">
+          <span className="text-3xl">👨‍👩‍👧</span> 부모님을 위한 종합 가이드
         </h3>
-        <p className="text-sm text-gray-700 leading-relaxed">
+        <p className="text-lg text-gray-800 leading-loose font-medium">
           {result.parentalGuidance}
         </p>
       </Card>
 
       {/* 주의사항 */}
-      <Card className="p-4 bg-gray-50 border-gray-200">
-        <p className="text-xs text-gray-600 leading-relaxed">
-          ℹ️ 이 분석 결과는 AI 기반 미술 심리 분석으로, 참고 자료로 활용하시기 바랍니다. 
+      <Card className="p-6 bg-gray-50 border-gray-300">
+        <p className="text-sm text-gray-700 leading-relaxed">
+          ℹ️ <strong>참고사항:</strong> 이 분석 결과는 AI 기반 미술 심리 분석으로, 참고 자료로 활용하시기 바랍니다. 
           전문적인 상담이 필요한 경우 아동 심리 전문가와 상담하시는 것을 권장합니다.
         </p>
       </Card>
