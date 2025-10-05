@@ -89,7 +89,7 @@ export function DevelopmentalLevelChart({ levels }: DevelopmentalLevelChartProps
       <div className="mt-6 p-4 bg-white rounded-lg border border-gray-200">
         <p className="text-sm text-gray-700 leading-relaxed">
           <strong>💡 참고:</strong> 이 평가는 같은 연령대의 아이들과 비교한 상대적 수준입니다. 
-          모든 아이는 자신만의 속도로 발달하며, '발달 중'은 문제가 아니라 성장의 과정입니다.
+          모든 아이는 자신만의 속도로 발달하며, &apos;발달 중&apos;은 문제가 아니라 성장의 과정입니다.
         </p>
       </div>
     </Card>
