@@ -35,23 +35,24 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
   return (
     <div className="space-y-6">
       {/* 업로드된 그림 및 설명 */}
-      <Card className="p-8 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200">
-        <div className="flex items-start gap-6">
+      <Card className="p-6 md:p-8 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200">
+        <h3 className="font-bold text-xl md:text-2xl text-gray-900 mb-4 flex items-center gap-2">
+          <span className="text-2xl md:text-3xl">🖼️</span> 업로드하신 그림
+        </h3>
+        
+        <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
           {/* 그림 이미지 */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 w-full md:w-auto flex justify-center md:justify-start">
             <img 
               src={result.imageUrl} 
               alt="분석할 그림" 
-              className="w-48 h-48 object-contain rounded-lg border-2 border-green-300 bg-white"
+              className="w-full max-w-[300px] md:w-48 md:h-48 h-auto object-contain rounded-lg border-2 border-green-300 bg-white"
             />
           </div>
           
           {/* 그림 설명 */}
-          <div className="flex-1">
-            <h3 className="font-bold text-2xl text-gray-900 mb-4 flex items-center gap-2">
-              <span className="text-3xl">🖼️</span> 업로드하신 그림
-            </h3>
-            <p className="text-lg text-gray-800 leading-loose">
+          <div className="flex-1 w-full">
+            <p className="text-base md:text-lg text-gray-800 leading-relaxed md:leading-loose">
               {result.imageDescription}
             </p>
           </div>
