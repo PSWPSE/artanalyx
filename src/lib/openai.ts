@@ -120,9 +120,21 @@ export async function analyzeChildrenArtwork(
 
     return result;
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('OpenAI 분석 오류:', error);
-    throw new Error('AI 분석 중 오류가 발생했습니다.');
+    
+    // 상세한 에러 메시지 로깅
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
+    
+    // OpenAI API 에러인 경우 상세 정보 출력
+    if (typeof error === 'object' && error !== null) {
+      console.error('Error details:', JSON.stringify(error, null, 2));
+    }
+    
+    throw new Error('AI 분석 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
   }
 }
 
