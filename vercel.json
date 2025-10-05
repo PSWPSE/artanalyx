@@ -3,6 +3,6 @@
   "framework": "nextjs",
   "installCommand": "npm install",
   "devCommand": "next dev -p 3001",
-  "regions": ["iad1"]
+  "regions": ["iad1"],
+  "alias": ["artanalyx.vercel.app"]
 }
-
