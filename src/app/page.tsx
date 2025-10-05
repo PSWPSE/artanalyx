@@ -225,6 +225,20 @@ export default function Home() {
           </div>
         ) : (
           <div className="space-y-8">
+            {/* 홈으로 돌아가기 버튼 (상단) */}
+            <div className="flex justify-between items-center">
+              <Button
+                size="lg"
+                onClick={handleReset}
+                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold"
+              >
+                🏠 홈으로 돌아가기
+              </Button>
+              <div className="text-sm text-gray-600">
+                <span className="font-semibold">{currentAnalysis.childAge}세</span> 분석 결과
+              </div>
+            </div>
+            
             {/* Phase 3: 이전 분석과 비교 */}
             {previousAnalysis && (
               <AnalysisComparison current={currentAnalysis} previous={previousAnalysis} />
@@ -239,15 +253,14 @@ export default function Home() {
             {/* 분석 결과 */}
             <AnalysisResult result={currentAnalysis} />
 
-            {/* 새로운 분석 버튼 */}
-            <div className="flex justify-center mt-8">
+            {/* 새로운 분석 버튼 (하단) */}
+            <div className="flex justify-center mt-12 pb-8">
               <Button
                 size="lg"
                 onClick={handleReset}
-                variant="outline"
-                className="px-8"
+                className="px-10 py-6 text-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold shadow-lg hover:shadow-xl transition-all"
               >
-                새로운 그림 분석하기
+                ✨ 새로운 그림 분석하기
               </Button>
             </div>
           </div>
