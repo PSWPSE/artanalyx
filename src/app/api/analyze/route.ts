@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
           childAge,
           childAgeGroup: ageGroup,
           imageUrl,
-          analysisResult: analysisResult as Prisma.InputJsonValue,
+          analysisResult: JSON.parse(JSON.stringify(analysisResult)) as Prisma.InputJsonValue,
           sessionId,
         },
       });
