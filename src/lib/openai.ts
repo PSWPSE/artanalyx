@@ -70,6 +70,7 @@ export async function analyzeChildrenArtwork(
           
           분석 결과는 반드시 다음 JSON 형식으로 응답해주세요:
           {
+            "imageDescription": "그림 설명 (200-250자): 이 그림이 무엇을 그렸는지 자세히 설명해주세요. 예: '이 그림에는 [주요 대상]이/가 그려져 있어요. [색상/크기/위치] 등의 특징이 보이며, [배경이나 주변 요소]도 함께 표현되어 있습니다. [특별한 표현이나 독특한 점]이 인상적이네요. 이러한 그림을 미술 심리 관점에서 분석해드리겠습니다.'",
             "insights": {
               "emotional": "감정 발달 분석 (400-500자): 따뜻한 톤으로 아이의 감정 상태를 설명하고, 관련 연구나 발달 이론을 언급하며 구체적인 관찰 내용을 전달",
               "cognitive": "인지 발달 분석 (400-500자): 의사 선생님처럼 친절하게 인지 발달 수준을 설명하고, 연령대별 발달 단계 이론을 바탕으로 구체적인 분석 제공", 
@@ -174,6 +175,7 @@ export async function analyzeChildrenArtwork(
       childAge,
       ageGroup,
       imageUrl,
+      imageDescription: analysisData.imageDescription || '',
       insights: analysisData.insights,
       recommendations: analysisData.recommendations || [],
       strengths: analysisData.strengths || [],

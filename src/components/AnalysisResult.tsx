@@ -34,6 +34,30 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
 
   return (
     <div className="space-y-6">
+      {/* 업로드된 그림 및 설명 */}
+      <Card className="p-8 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200">
+        <div className="flex items-start gap-6">
+          {/* 그림 이미지 */}
+          <div className="flex-shrink-0">
+            <img 
+              src={result.imageUrl} 
+              alt="분석할 그림" 
+              className="w-48 h-48 object-contain rounded-lg border-2 border-green-300 bg-white"
+            />
+          </div>
+          
+          {/* 그림 설명 */}
+          <div className="flex-1">
+            <h3 className="font-bold text-2xl text-gray-900 mb-4 flex items-center gap-2">
+              <span className="text-3xl">🖼️</span> 업로드하신 그림
+            </h3>
+            <p className="text-lg text-gray-800 leading-loose">
+              {result.imageDescription}
+            </p>
+          </div>
+        </div>
+      </Card>
+
       {/* 헤더 */}
       <Card className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
         <div className="flex items-center gap-3 mb-2">

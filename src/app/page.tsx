@@ -5,15 +5,11 @@ import { Palette, Sparkles, AlertCircle, Loader2 } from 'lucide-react';
 import { ImageUploader } from '@/components/ImageUploader';
 import { AgeSelector } from '@/components/AgeSelector';
 import { AnalysisResult } from '@/components/AnalysisResult';
-import { AnalysisHistory } from '@/components/AnalysisHistory';
-import { AnalysisComparison } from '@/components/AnalysisComparison';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useAnalysisStore } from '@/store/analysisStore';
 import { determineAgeGroup } from '@/lib/openai';
 import { ERROR_MESSAGES } from '@/lib/constants';
-import { saveAnalysisToHistory, getPreviousAnalysisByAge } from '@/lib/analysisHistory';
-import { AnalysisResult as AnalysisResultType } from '@/types';
 
 export default function Home() {
   const {
@@ -30,7 +26,6 @@ export default function Home() {
   } = useAnalysisStore();
 
   const [progress, setProgress] = useState(0);
-  const [previousAnalysis, setPreviousAnalysis] = useState<AnalysisResultType | null>(null);
 
   const handleAnalyze = async () => {
     if (!uploadedImage || !childAge) {
@@ -80,14 +75,6 @@ export default function Home() {
       setTimeout(() => {
         setCurrentAnalysis(result.data);
         addToHistory(result.data);
-        
-        // Phase 3: localStorage에 저장
-        saveAnalysisToHistory(result.data);
-        
-        // Phase 3: 같은 나이의 이전 분석 찾기
-        const previous = getPreviousAnalysisByAge(childAge, result.data.id);
-        setPreviousAnalysis(previous);
-        
         setUploadStatus('completed');
         setProgress(0);
       }, 500);
@@ -115,15 +102,18 @@ export default function Home() {
       {/* 헤더 */}
       <header className="bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
+          <button 
+            onClick={handleReset}
+            className="flex items-center gap-3 hover:opacity-80 transition-opacity cursor-pointer"
+          >
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
               <Palette className="w-6 h-6 text-white" />
             </div>
-            <div>
+            <div className="text-left">
               <h1 className="text-xl font-bold text-gray-900">아동 미술 심리 분석</h1>
               <p className="text-sm text-gray-600">AI 기반 전문 분석 서비스</p>
             </div>
-          </div>
+          </button>
         </div>
       </header>
 
@@ -225,44 +215,8 @@ export default function Home() {
           </div>
         ) : (
           <div className="space-y-8">
-            {/* 홈으로 돌아가기 버튼 (상단) */}
-            <div className="flex justify-between items-center">
-              <Button
-                size="lg"
-                onClick={handleReset}
-                className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold"
-              >
-                🏠 홈으로 돌아가기
-              </Button>
-              <div className="text-sm text-gray-600">
-                <span className="font-semibold">{currentAnalysis.childAge}세</span> 분석 결과
-              </div>
-            </div>
-            
-            {/* Phase 3: 이전 분석과 비교 */}
-            {previousAnalysis && (
-              <AnalysisComparison current={currentAnalysis} previous={previousAnalysis} />
-            )}
-            
-            {/* Phase 3: 분석 이력 */}
-            <AnalysisHistory 
-              currentId={currentAnalysis.id}
-              onSelect={(selected) => setPreviousAnalysis(selected)}
-            />
-            
             {/* 분석 결과 */}
             <AnalysisResult result={currentAnalysis} />
-
-            {/* 새로운 분석 버튼 (하단) */}
-            <div className="flex justify-center mt-12 pb-8">
-              <Button
-                size="lg"
-                onClick={handleReset}
-                className="px-10 py-6 text-lg bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-bold shadow-lg hover:shadow-xl transition-all"
-              >
-                ✨ 새로운 그림 분석하기
-              </Button>
-            </div>
           </div>
         )}
       </main>

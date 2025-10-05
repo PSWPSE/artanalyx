@@ -16,6 +16,7 @@ export interface AnalysisResult {
   childAge: number;
   ageGroup: AgeGroup;
   imageUrl: string;
+  imageDescription: string;  // 그림 설명
   insights: {
     emotional: string;
     cognitive: string;
