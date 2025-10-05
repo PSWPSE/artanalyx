@@ -30,8 +30,13 @@ export async function analyzeChildrenArtwork(
       throw new Error('지원하지 않는 연령대입니다.');
     }
 
+    // OpenAI API 호출 전 로깅
+    console.log('Starting OpenAI analysis...');
+    console.log('Model: gpt-4o');
+    console.log('Child age:', childAge, 'Age group:', ageGroup);
+    
     const response = await openai.chat.completions.create({
-      model: "gpt-4o",  // 최신 비전 모델 (gpt-4-vision-preview는 deprecated)
+      model: "gpt-4o",  // 최신 비전 모델
       messages: [
         {
           role: "system",
@@ -83,14 +88,19 @@ export async function analyzeChildrenArtwork(
           ]
         }
       ],
-      max_tokens: 3000,
-      temperature: 0.8,
+      max_tokens: 2500,  // 안전한 토큰 수로 조정
+      temperature: 0.7,
     });
 
+    console.log('OpenAI response received');
+    
     const content = response.choices[0]?.message?.content;
     if (!content) {
+      console.error('No content in response:', response);
       throw new Error('AI 분석 응답을 받을 수 없습니다.');
     }
+    
+    console.log('Content length:', content.length);
 
     // JSON 파싱 시도
     let analysisData;
