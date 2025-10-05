@@ -2,7 +2,7 @@
 
 import { Card } from './ui/card';
 import { AnalysisResult as AnalysisResultType } from '@/types';
-import { Lightbulb, TrendingUp, Target, Heart, BookOpen } from 'lucide-react';
+import { Lightbulb, TrendingUp, Target, Heart, BookOpen, Users, Palette, Clock, Calendar, Flag } from 'lucide-react';
 
 interface AnalysisResultProps {
   result: AnalysisResultType;
@@ -10,10 +10,12 @@ interface AnalysisResultProps {
 
 export function AnalysisResult({ result }: AnalysisResultProps) {
   const insightIcons = {
-    emotional: <Heart className="w-5 h-5 text-red-500" />,
-    cognitive: <Lightbulb className="w-5 h-5 text-yellow-500" />,
-    creative: <Target className="w-5 h-5 text-purple-500" />,
-    developmental: <TrendingUp className="w-5 h-5 text-green-500" />,
+    emotional: <Heart className="w-6 h-6 text-red-500" />,
+    cognitive: <Lightbulb className="w-6 h-6 text-yellow-500" />,
+    creative: <Target className="w-6 h-6 text-purple-500" />,
+    developmental: <TrendingUp className="w-6 h-6 text-green-500" />,
+    social: <Users className="w-6 h-6 text-blue-500" />,
+    drawingElements: <Palette className="w-6 h-6 text-pink-500" />,
   };
 
   const insightLabels = {
@@ -21,6 +23,8 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
     cognitive: '인지 발달',
     creative: '창의성',
     developmental: '전반적 발달',
+    social: '사회성 및 대인관계',
+    drawingElements: '그림 요소 분석',
   };
 
   return (
@@ -142,6 +146,63 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
               <p key={index} className="font-medium whitespace-pre-line">{paragraph}</p>
             ) : null;
           })}
+        </div>
+      </Card>
+
+      {/* 실행 계획 (Phase 1) */}
+      <Card className="p-8 bg-gradient-to-br from-indigo-50 to-blue-50 border-2 border-indigo-300">
+        <h3 className="font-bold text-2xl text-gray-900 mb-6 flex items-center gap-3">
+          <span className="text-3xl">📅</span> 단계별 실행 계획
+        </h3>
+        
+        <div className="space-y-6">
+          {/* 즉시 실천 */}
+          <div className="bg-white rounded-lg p-6 border-2 border-red-200">
+            <h4 className="font-bold text-xl text-red-700 mb-4 flex items-center gap-2">
+              <Clock className="w-6 h-6 text-red-500" />
+              즉시 실천 (오늘부터 1주일)
+            </h4>
+            <ul className="space-y-3">
+              {result.actionPlan.immediate.map((item, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <span className="text-red-600 text-lg font-bold mt-0.5 flex-shrink-0">🔥</span>
+                  <span className="text-base text-gray-800 leading-relaxed font-medium">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 단기 목표 */}
+          <div className="bg-white rounded-lg p-6 border-2 border-blue-200">
+            <h4 className="font-bold text-xl text-blue-700 mb-4 flex items-center gap-2">
+              <Calendar className="w-6 h-6 text-blue-500" />
+              단기 목표 (1-3개월)
+            </h4>
+            <ul className="space-y-3">
+              {result.actionPlan.shortTerm.map((item, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <span className="text-blue-600 text-lg font-bold mt-0.5 flex-shrink-0">🎯</span>
+                  <span className="text-base text-gray-800 leading-relaxed font-medium">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* 장기 목표 */}
+          <div className="bg-white rounded-lg p-6 border-2 border-green-200">
+            <h4 className="font-bold text-xl text-green-700 mb-4 flex items-center gap-2">
+              <Flag className="w-6 h-6 text-green-500" />
+              장기 목표 (6-12개월)
+            </h4>
+            <ul className="space-y-3">
+              {result.actionPlan.longTerm.map((item, index) => (
+                <li key={index} className="flex items-start gap-3">
+                  <span className="text-green-600 text-lg font-bold mt-0.5 flex-shrink-0">🌟</span>
+                  <span className="text-base text-gray-800 leading-relaxed font-medium">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </Card>
 
