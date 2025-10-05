@@ -119,9 +119,30 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
         <h3 className="font-bold text-2xl text-gray-900 mb-5 flex items-center gap-3">
           <span className="text-3xl">👨‍👩‍👧</span> 부모님을 위한 종합 가이드
         </h3>
-        <p className="text-lg text-gray-800 leading-loose font-medium">
-          {result.parentalGuidance}
-        </p>
+        <div className="space-y-5 text-lg text-gray-800 leading-loose">
+          {result.parentalGuidance.split('\n\n').map((paragraph, index) => {
+            // [제목] 형식을 강조 표시
+            if (paragraph.trim().startsWith('[') && paragraph.includes(']')) {
+              const titleMatch = paragraph.match(/\[([^\]]+)\]/);
+              if (titleMatch) {
+                const title = titleMatch[1];
+                const content = paragraph.replace(/\[([^\]]+)\]\s*/, '');
+                return (
+                  <div key={index} className="mb-4">
+                    <h4 className="font-bold text-xl text-orange-700 mb-2 flex items-center gap-2">
+                      <span className="text-orange-500">▶</span> {title}
+                    </h4>
+                    <p className="font-medium pl-6 whitespace-pre-line">{content}</p>
+                  </div>
+                );
+              }
+            }
+            // 일반 단락
+            return paragraph.trim() ? (
+              <p key={index} className="font-medium whitespace-pre-line">{paragraph}</p>
+            ) : null;
+          })}
+        </div>
       </Card>
 
       {/* 주의사항 */}
