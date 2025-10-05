@@ -23,7 +23,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 파일 타입 검증
-    if (!FILE_CONSTRAINTS.allowedTypes.includes(file.type)) {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'] as const;
+    if (!allowedTypes.includes(file.type as typeof allowedTypes[number])) {
       return NextResponse.json(
         { success: false, error: ERROR_MESSAGES.INVALID_FILE_TYPE },
         { status: 400 }
