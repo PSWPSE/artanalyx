@@ -132,3 +132,8 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
 
 
 
+
+
+
+
+
