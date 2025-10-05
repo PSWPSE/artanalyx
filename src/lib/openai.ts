@@ -76,7 +76,16 @@ export async function analyzeChildrenArtwork(
               "creative": "창의성 분석 (400-500자): 격려하는 톤으로 창의적 표현의 의미를 설명하고, 미술 심리학 연구를 인용하여 풍부하게 분석",
               "developmental": "종합 발달 분석 (400-500자): 전문가의 시각에서 전반적인 발달 상황을 종합적으로 설명하고, 향후 발달 전망과 학문적 근거를 포함",
               "social": "사회성 및 대인관계 분석 (400-500자): 그림에 나타난 사람들과의 관계, 사회적 상황 이해도, 협력 능력을 Selman의 역할 채택 이론(다른 사람의 관점을 이해하는 능력)과 Parten의 놀이 발달 단계(혼자 놀이에서 협동 놀이로 발달)를 바탕으로 분석",
-              "drawingElements": "그림 요소 전문 분석 (400-500자): 색상 선택과 배치, 선의 강도와 질감, 공간 구성과 크기 비율, 세부 묘사 수준, 생략되거나 과장된 부분을 Koppitz의 DAP 분석(사람 그림의 각 요소가 가진 심리적 의미)과 Lowenfeld의 미술 발달 단계를 근거로 상세히 해석"
+              "drawingElements": "그림 요소 전문 분석 (400-500자): 색상 선택과 배치, 선의 강도와 질감, 공간 구성과 크기 비율, 세부 묘사 수준, 생략되거나 과장된 부분을 Koppitz의 DAP 분석(사람 그림의 각 요소가 가진 심리적 의미)과 Lowenfeld의 미술 발달 단계를 근거로 상세히 해석",
+              "selfConcept": "자아 개념 및 자존감 분석 (400-500자): 자기 자신을 어떻게 표현하는지, 자신감 수준, 자기 효능감을 Erikson의 심리사회적 발달 단계(신뢰감, 자율성, 주도성)와 Harter의 자존감 발달 이론(영역별 자기 인식)을 바탕으로 분석",
+              "physical": "신체 발달 분석 (400-500자): 소근육 발달(선 그리기, 세부 표현), 대근육 발달(전체 동작의 통제), 눈-손 협응력을 Gesell의 발달 규준(연령별 운동 발달 기준)과 Kephart의 지각-운동 이론(신체 움직임과 인지 발달의 관계)을 근거로 평가"
+            },
+            "developmentalLevels": {
+              "emotional": "below/average/above 중 하나 선택 - 연령 대비 감정 발달 수준",
+              "cognitive": "below/average/above 중 하나 선택 - 연령 대비 인지 발달 수준",
+              "creative": "below/average/above 중 하나 선택 - 연령 대비 창의성 수준",
+              "social": "below/average/above 중 하나 선택 - 연령 대비 사회성 수준",
+              "physical": "below/average/above 중 하나 선택 - 연령 대비 신체 발달 수준"
             },
             "strengths": [
               "강점 1 (200-250자): 관찰된 강점 + 왜 이것이 중요한지 + 발달 이론 근거 + 구체적 예시. 예: '색채 사용이 풍부한 점이 인상적이에요. 이는 Lowenfeld의 색채 발달 이론(색을 통해 감정을 표현하는 능력)에서 볼 때 정서적으로 건강한 신호입니다. 빨간색으로 사랑하는 사람을 표현하고, 파란색으로 하늘을 그리는 등 각 색의 의미를 이해하고 있어요.'",
@@ -104,7 +113,9 @@ export async function analyzeChildrenArtwork(
                 "장기 목표 1 (150-200자): 6-12개월 내 기대되는 발달 목표. 예: '1년 후에는 이야기가 있는 그림을 그릴 수 있을 거예요. 지금부터 꾸준히 그림책을 읽고 이야기를 만드는 연습을 하면 서사적 사고력이 크게 발달합니다.'",
                 "장기 목표 2개도 동일한 방식으로"
               ]
-            }
+            },
+            "redFlags": ["주의가 필요한 신호가 있을 경우에만 포함 (예: 극도로 어두운 색상만 사용, 공격적 표현, 사람 없는 그림 등). 없으면 이 필드 자체를 생략"],
+            "professionalConsultation": "전문가 상담이 권장되는 경우에만 포함 (200-300자로 구체적 사유 설명). 정상 발달 범위이면 이 필드 자체를 생략"
           }
 
           반드시 지켜야 할 원칙:
@@ -131,7 +142,7 @@ export async function analyzeChildrenArtwork(
           ]
         }
       ],
-      max_tokens: 5000,  // Phase 1: 6개 insights + actionPlan을 위해 증가
+      max_tokens: 6000,  // Phase 2: 8개 insights + levels + redFlags를 위해 증가
       temperature: 0.7,
     });
 
@@ -173,6 +184,17 @@ export async function analyzeChildrenArtwork(
         shortTerm: [],
         longTerm: []
       },
+      // Phase 2: 정량적 평가
+      developmentalLevels: analysisData.developmentalLevels || {
+        emotional: 'average',
+        cognitive: 'average',
+        creative: 'average',
+        social: 'average',
+        physical: 'average'
+      },
+      // Phase 2: 주의 신호 (optional)
+      redFlags: analysisData.redFlags,
+      professionalConsultation: analysisData.professionalConsultation,
       createdAt: new Date().toISOString(),
     };
 

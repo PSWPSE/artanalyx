@@ -2,7 +2,8 @@
 
 import { Card } from './ui/card';
 import { AnalysisResult as AnalysisResultType } from '@/types';
-import { Lightbulb, TrendingUp, Target, Heart, BookOpen, Users, Palette, Clock, Calendar, Flag } from 'lucide-react';
+import { Lightbulb, TrendingUp, Target, Heart, BookOpen, Users, Palette, Clock, Calendar, Flag, AlertTriangle, UserCheck, Activity } from 'lucide-react';
+import { DevelopmentalLevelChart } from './DevelopmentalLevelChart';
 
 interface AnalysisResultProps {
   result: AnalysisResultType;
@@ -16,6 +17,8 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
     developmental: <TrendingUp className="w-6 h-6 text-green-500" />,
     social: <Users className="w-6 h-6 text-blue-500" />,
     drawingElements: <Palette className="w-6 h-6 text-pink-500" />,
+    selfConcept: <UserCheck className="w-6 h-6 text-indigo-500" />,
+    physical: <Activity className="w-6 h-6 text-orange-500" />,
   };
 
   const insightLabels = {
@@ -25,6 +28,8 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
     developmental: '전반적 발달',
     social: '사회성 및 대인관계',
     drawingElements: '그림 요소 분석',
+    selfConcept: '자아 개념 및 자존감',
+    physical: '신체 발달',
   };
 
   return (
@@ -70,6 +75,50 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
           </Card>
         ))}
       </div>
+
+      {/* Phase 2: 발달 수준 차트 */}
+      <DevelopmentalLevelChart levels={result.developmentalLevels} />
+
+      {/* Phase 2: Red Flags (있을 경우만) */}
+      {result.redFlags && result.redFlags.length > 0 && (
+        <Card className="p-8 bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-yellow-300">
+          <h3 className="font-bold text-2xl text-gray-900 mb-5 flex items-center gap-3">
+            <AlertTriangle className="w-8 h-8 text-yellow-600" />
+            주의가 필요한 부분
+          </h3>
+          <ul className="space-y-4">
+            {result.redFlags.map((flag, index) => (
+              <li key={index} className="flex items-start gap-3 bg-white p-4 rounded-lg border-2 border-yellow-200">
+                <span className="text-yellow-600 text-xl font-bold mt-0.5 flex-shrink-0">⚠️</span>
+                <span className="text-base text-gray-800 leading-relaxed font-medium">{flag}</span>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      )}
+
+      {/* Phase 2: 전문가 상담 안내 (있을 경우만) */}
+      {result.professionalConsultation && (
+        <Card className="p-8 bg-gradient-to-br from-red-50 to-pink-50 border-2 border-red-300">
+          <h3 className="font-bold text-2xl text-gray-900 mb-5 flex items-center gap-3">
+            <BookOpen className="w-8 h-8 text-red-600" />
+            전문가 상담 권장
+          </h3>
+          <div className="bg-white p-6 rounded-lg border-2 border-red-200">
+            <p className="text-lg text-gray-800 leading-loose font-medium mb-4">
+              {result.professionalConsultation}
+            </p>
+            <div className="mt-4 p-4 bg-red-50 rounded-lg">
+              <p className="text-sm text-gray-700 leading-relaxed">
+                <strong>📞 도움을 받을 수 있는 곳:</strong><br/>
+                • 아동발달센터, 소아정신건강의학과<br/>
+                • 학교 상담실 또는 교육청 wee센터<br/>
+                • 아동 미술치료센터
+              </p>
+            </div>
+          </div>
+        </Card>
+      )}
 
       {/* 강점 */}
       <Card className="p-8 bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200">
