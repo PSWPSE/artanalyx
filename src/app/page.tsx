@@ -5,11 +5,15 @@ import { Palette, Sparkles, AlertCircle, Loader2 } from 'lucide-react';
 import { ImageUploader } from '@/components/ImageUploader';
 import { AgeSelector } from '@/components/AgeSelector';
 import { AnalysisResult } from '@/components/AnalysisResult';
+import { AnalysisHistory } from '@/components/AnalysisHistory';
+import { AnalysisComparison } from '@/components/AnalysisComparison';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useAnalysisStore } from '@/store/analysisStore';
 import { determineAgeGroup } from '@/lib/openai';
 import { ERROR_MESSAGES } from '@/lib/constants';
+import { saveAnalysisToHistory, getPreviousAnalysisByAge } from '@/lib/analysisHistory';
+import { AnalysisResult as AnalysisResultType } from '@/types';
 
 export default function Home() {
   const {
@@ -26,6 +30,7 @@ export default function Home() {
   } = useAnalysisStore();
 
   const [progress, setProgress] = useState(0);
+  const [previousAnalysis, setPreviousAnalysis] = useState<AnalysisResultType | null>(null);
 
   const handleAnalyze = async () => {
     if (!uploadedImage || !childAge) {
@@ -75,6 +80,14 @@ export default function Home() {
       setTimeout(() => {
         setCurrentAnalysis(result.data);
         addToHistory(result.data);
+        
+        // Phase 3: localStorage에 저장
+        saveAnalysisToHistory(result.data);
+        
+        // Phase 3: 같은 나이의 이전 분석 찾기
+        const previous = getPreviousAnalysisByAge(childAge, result.data.id);
+        setPreviousAnalysis(previous);
+        
         setUploadStatus('completed');
         setProgress(0);
       }, 500);
@@ -211,7 +224,18 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <div>
+          <div className="space-y-8">
+            {/* Phase 3: 이전 분석과 비교 */}
+            {previousAnalysis && (
+              <AnalysisComparison current={currentAnalysis} previous={previousAnalysis} />
+            )}
+            
+            {/* Phase 3: 분석 이력 */}
+            <AnalysisHistory 
+              currentId={currentAnalysis.id}
+              onSelect={(selected) => setPreviousAnalysis(selected)}
+            />
+            
             {/* 분석 결과 */}
             <AnalysisResult result={currentAnalysis} />
 

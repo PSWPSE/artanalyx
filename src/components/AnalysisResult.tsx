@@ -255,6 +255,55 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
         </div>
       </Card>
 
+      {/* Phase 3: 부모 교육 자료 */}
+      <Card className="p-8 bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-cyan-200">
+        <h3 className="font-bold text-2xl text-gray-900 mb-6 flex items-center gap-3">
+          <span className="text-3xl">📚</span> 추천 교육 자료
+        </h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* 발달 단계 이해 */}
+          <div className="bg-white p-5 rounded-lg border-2 border-cyan-200">
+            <h4 className="font-bold text-lg text-cyan-700 mb-3">발달 단계 이해</h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>• <a href="https://www.goodoc.co.kr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">아동 발달 단계별 특징</a></li>
+              <li>• <a href="https://www.kicce.re.kr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">육아정책연구소 자료</a></li>
+              <li>• <a href="https://www.mohw.go.kr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">보건복지부 아동 정책</a></li>
+            </ul>
+          </div>
+
+          {/* 미술 활동 가이드 */}
+          <div className="bg-white p-5 rounded-lg border-2 border-cyan-200">
+            <h4 className="font-bold text-lg text-cyan-700 mb-3">미술 활동 가이드</h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>• <a href="https://www.youtube.com/results?search_query=아동+미술+활동" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">연령별 미술 활동 영상</a></li>
+              <li>• <a href="https://www.kidsharu.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">키즈하루 창의 활동</a></li>
+              <li>• <a href="https://lib.go.kr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">국립중앙도서관 자료</a></li>
+            </ul>
+          </div>
+
+          {/* 심리 상담 정보 */}
+          <div className="bg-white p-5 rounded-lg border-2 border-cyan-200">
+            <h4 className="font-bold text-lg text-cyan-700 mb-3">전문 상담 기관</h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>• <a href="https://www.129.go.kr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">보건복지콜센터 129</a></li>
+              <li>• <a href="https://www.wee.go.kr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">Wee센터 (학생 상담)</a></li>
+              <li>• <a href="https://www.kfta.or.kr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">한국미술치료학회</a></li>
+            </ul>
+          </div>
+
+          {/* 양육 팁 */}
+          <div className="bg-white p-5 rounded-lg border-2 border-cyan-200">
+            <h4 className="font-bold text-lg text-cyan-700 mb-3">양육 팁 & 커뮤니티</h4>
+            <ul className="space-y-2 text-sm text-gray-700">
+              <li>• <a href="https://www.parents.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">양육 가이드</a></li>
+              <li>• <a href="https://www.childcare.go.kr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">아이사랑 보육포털</a></li>
+              <li>• <a href="https://www.momq.co.kr" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">맘큐 육아 커뮤니티</a></li>
+            </ul>
+          </div>
+        </div>
+      </Card>
+
       {/* 주의사항 */}
       <Card className="p-6 bg-gray-50 border-gray-300">
         <p className="text-sm text-gray-700 leading-relaxed">
