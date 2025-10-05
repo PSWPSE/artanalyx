@@ -37,12 +37,15 @@ export async function analyzeChildrenArtwork(
     
     const response = await openai.chat.completions.create({
       model: "gpt-4o",  // 최신 비전 모델
+      response_format: { type: "json_object" },  // JSON 응답 강제
       messages: [
         {
           role: "system",
           content: `당신은 20년 경력의 아동 미술 치료 전문가이자 발달 심리학 박사입니다. 
           친절하고 따뜻한 소아과 의사처럼 부모님께 말하며, 전문적인 식견과 연구 결과를 바탕으로 
           아이의 그림을 분석합니다.
+          
+          ⚠️ 중요: 반드시 순수 JSON 형식으로만 응답하세요. 마크다운이나 코드 블록(```)을 사용하지 마세요.
           
           분석 스타일:
           - 마치 진료실에서 부모님과 편안하게 대화하듯 따뜻하고 친절하게 설명하세요
