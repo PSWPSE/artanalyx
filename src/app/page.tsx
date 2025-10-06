@@ -182,43 +182,41 @@ export default function Home() {
             {/* 분석 시작 버튼 */}
             <div className="flex justify-center pt-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
-                <Button
-                  size="lg"
+                <button
                   onClick={() => handleAnalyze('deep')}
                   disabled={!isReadyToAnalyze || isAnalyzing}
-                  className="px-6 py-6 text-base font-semibold bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center justify-center gap-2 px-6 py-6 text-base font-semibold text-white rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                   {isAnalyzing ? (
                     <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       분석 중...
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-5 h-5 mr-2" />
+                      <Sparkles className="w-5 h-5" />
                       심층적인 분석
                     </>
                   )}
-                </Button>
+                </button>
                 
-                <Button
-                  size="lg"
+                <button
                   onClick={() => handleAnalyze('simple')}
                   disabled={!isReadyToAnalyze || isAnalyzing}
-                  className="px-6 py-6 text-base font-semibold bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center justify-center gap-2 px-6 py-6 text-base font-semibold text-white rounded-lg bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                   {isAnalyzing ? (
                     <>
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       분석 중...
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-5 h-5 mr-2" />
+                      <Sparkles className="w-5 h-5" />
                       쉽게 설명한 분석
                     </>
                   )}
-                </Button>
+                </button>
               </div>
             </div>
 
