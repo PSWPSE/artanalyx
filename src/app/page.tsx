@@ -185,7 +185,14 @@ export default function Home() {
                 <button
                   onClick={() => handleAnalyze('deep')}
                   disabled={!isReadyToAnalyze || isAnalyzing}
-                  className="flex items-center justify-center gap-2 px-6 py-6 text-base font-semibold text-white rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg"
+                  style={{
+                    background: isReadyToAnalyze && !isAnalyzing 
+                      ? 'linear-gradient(to right, rgb(168 85 247), rgb(59 130 246))'
+                      : 'linear-gradient(to right, rgb(168 85 247 / 0.5), rgb(59 130 246 / 0.5))',
+                    color: 'white',
+                    opacity: 1,
+                  }}
+                  className="flex items-center justify-center gap-2 px-6 py-6 text-base font-semibold rounded-lg disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg min-h-[60px]"
                 >
                   {isAnalyzing ? (
                     <>
@@ -203,7 +210,14 @@ export default function Home() {
                 <button
                   onClick={() => handleAnalyze('simple')}
                   disabled={!isReadyToAnalyze || isAnalyzing}
-                  className="flex items-center justify-center gap-2 px-6 py-6 text-base font-semibold text-white rounded-lg bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg"
+                  style={{
+                    background: isReadyToAnalyze && !isAnalyzing 
+                      ? 'linear-gradient(to right, rgb(34 197 94), rgb(20 184 166))'
+                      : 'linear-gradient(to right, rgb(34 197 94 / 0.5), rgb(20 184 166 / 0.5))',
+                    color: 'white',
+                    opacity: 1,
+                  }}
+                  className="flex items-center justify-center gap-2 px-6 py-6 text-base font-semibold rounded-lg disabled:cursor-not-allowed transition-all duration-200 shadow-md hover:shadow-lg min-h-[60px]"
                 >
                   {isAnalyzing ? (
                     <>
