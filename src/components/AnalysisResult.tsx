@@ -194,31 +194,65 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
 
       {/* 부모님을 위한 가이드 */}
       <Card className="p-8 bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-orange-300">
-        <h3 className="font-bold text-2xl text-gray-900 mb-5 flex items-center gap-3">
+        <h3 className="font-bold text-2xl text-gray-900 mb-6 flex items-center gap-3">
           <span className="text-3xl">👨‍👩‍👧</span> 부모님을 위한 종합 가이드
         </h3>
-        <div className="space-y-5 text-lg text-gray-800 leading-loose">
+        <div className="space-y-4">
           {result.parentalGuidance.split('\n\n').map((paragraph, index) => {
-            // [제목] 형식을 강조 표시
-            if (paragraph.trim().startsWith('[') && paragraph.includes(']')) {
-              const titleMatch = paragraph.match(/\[([^\]]+)\]/);
+            const trimmedParagraph = paragraph.trim();
+            if (!trimmedParagraph) return null;
+
+            // [제목] 형식을 카드로 표시
+            if (trimmedParagraph.startsWith('[') && trimmedParagraph.includes(']')) {
+              const titleMatch = trimmedParagraph.match(/\[([^\]]+)\]/);
               if (titleMatch) {
                 const title = titleMatch[1];
-                const content = paragraph.replace(/\[([^\]]+)\]\s*/, '');
+                const content = trimmedParagraph.replace(/\[([^\]]+)\]\s*/, '');
+                
+                // 섹션별 아이콘과 색상
+                let icon = '📌';
+                let colorClass = 'border-orange-300 bg-white';
+                
+                if (title.includes('현재') || title.includes('상태') || title.includes('수준')) {
+                  icon = '📊';
+                  colorClass = 'border-blue-300 bg-blue-50';
+                } else if (title.includes('특성') || title.includes('발달') || title.includes('주목')) {
+                  icon = '✨';
+                  colorClass = 'border-purple-300 bg-purple-50';
+                } else if (title.includes('방법') || title.includes('실천') || title.includes('가정')) {
+                  icon = '💡';
+                  colorClass = 'border-green-300 bg-green-50';
+                } else if (title.includes('격려') || title.includes('응원') || title.includes('마음')) {
+                  icon = '💖';
+                  colorClass = 'border-pink-300 bg-pink-50';
+                }
+                
                 return (
-                  <div key={index} className="mb-4">
-                    <h4 className="font-bold text-xl text-orange-700 mb-2 flex items-center gap-2">
-                      <span className="text-orange-500">▶</span> {title}
+                  <div key={index} className={`p-5 rounded-lg border-2 ${colorClass}`}>
+                    <h4 className="font-bold text-lg text-gray-900 mb-3 flex items-center gap-2">
+                      <span className="text-2xl">{icon}</span>
+                      <span>{title}</span>
                     </h4>
-                    <p className="font-medium pl-6 whitespace-pre-line">{content}</p>
+                    <div className="pl-8 text-base text-gray-800 leading-relaxed space-y-2">
+                      {content.split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                        <p key={lineIndex} className="font-medium">{line.trim()}</p>
+                      ))}
+                    </div>
                   </div>
                 );
               }
             }
-            // 일반 단락
-            return paragraph.trim() ? (
-              <p key={index} className="font-medium whitespace-pre-line">{paragraph}</p>
-            ) : null;
+            
+            // 일반 단락 - 카드 형태로 표시
+            return (
+              <div key={index} className="p-5 rounded-lg border-2 border-orange-200 bg-white">
+                <div className="text-base text-gray-800 leading-relaxed space-y-2">
+                  {trimmedParagraph.split('\n').filter(line => line.trim()).map((line, lineIndex) => (
+                    <p key={lineIndex} className="font-medium">{line.trim()}</p>
+                  ))}
+                </div>
+              </div>
+            );
           })}
         </div>
       </Card>
