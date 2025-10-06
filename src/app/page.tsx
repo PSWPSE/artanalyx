@@ -15,6 +15,7 @@ export default function Home() {
   const {
     uploadedImage,
     childAge,
+    analysisMode,
     currentAnalysis,
     uploadStatus,
     error,
@@ -60,6 +61,7 @@ export default function Home() {
           imageUrl: uploadedImage,
           childAge,
           ageGroup,
+          analysisMode,
         }),
       });
 

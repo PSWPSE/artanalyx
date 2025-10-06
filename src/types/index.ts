@@ -1,6 +1,9 @@
 // 연령 그룹 타입 정의
 export type AgeGroup = 'infant' | 'child' | 'elementary';
 
+// 분석 방식 타입 정의
+export type AnalysisMode = 'deep' | 'simple';
+
 // 아이 정보 인터페이스
 export interface ChildInfo {
   age: number;
@@ -68,6 +71,7 @@ export interface AnalysisRequest {
   imageUrl: string;
   childAge: number;
   ageGroup: AgeGroup;
+  analysisMode: AnalysisMode;
 }
 
 // 사용량 추적 인터페이스

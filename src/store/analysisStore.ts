@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AnalysisResult, UploadStatus } from '@/types';
+import { AnalysisResult, UploadStatus, AnalysisMode } from '@/types';
 
 interface AnalysisState {
   // 상태
@@ -11,11 +11,13 @@ interface AnalysisState {
   // 업로드 관련
   uploadedImage: string | null;
   childAge: number | null;
+  analysisMode: AnalysisMode;
   
   // 액션
   setUploadStatus: (status: UploadStatus) => void;
   setUploadedImage: (imageUrl: string | null) => void;
   setChildAge: (age: number | null) => void;
+  setAnalysisMode: (mode: AnalysisMode) => void;
   setCurrentAnalysis: (analysis: AnalysisResult | null) => void;
   addToHistory: (analysis: AnalysisResult) => void;
   setError: (error: string | null) => void;
@@ -31,6 +33,7 @@ export const useAnalysisStore = create<AnalysisState>((set, get) => ({
   error: null,
   uploadedImage: null,
   childAge: null,
+  analysisMode: 'deep', // 기본값: 심층적 연구 분석
 
   // 액션
   setUploadStatus: (status) => set({ uploadStatus: status }),
@@ -38,6 +41,8 @@ export const useAnalysisStore = create<AnalysisState>((set, get) => ({
   setUploadedImage: (imageUrl) => set({ uploadedImage: imageUrl }),
   
   setChildAge: (age) => set({ childAge: age }),
+  
+  setAnalysisMode: (mode) => set({ analysisMode: mode }),
   
   setCurrentAnalysis: (analysis) => set({ currentAnalysis: analysis }),
   
@@ -55,7 +60,8 @@ export const useAnalysisStore = create<AnalysisState>((set, get) => ({
     error: null,
     uploadedImage: null,
     childAge: null,
-    uploadStatus: 'idle'
+    uploadStatus: 'idle',
+    analysisMode: 'deep',
   }),
   
   reset: () => set({
@@ -65,5 +71,6 @@ export const useAnalysisStore = create<AnalysisState>((set, get) => ({
     error: null,
     uploadedImage: null,
     childAge: null,
+    analysisMode: 'deep',
   }),
 }));

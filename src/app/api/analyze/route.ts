@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body: AnalysisRequest = await request.json();
-    const { imageUrl, childAge } = body;
+    const { imageUrl, childAge, analysisMode } = body;
 
     // 입력 검증
     if (!imageUrl || !childAge) {
@@ -55,6 +55,9 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // analysisMode 기본값 설정
+    const mode = analysisMode || 'deep';
 
     if (childAge < 2 || childAge > 12) {
       return NextResponse.json(
@@ -70,7 +73,8 @@ export async function POST(request: NextRequest) {
     const analysisResult = await analyzeChildrenArtwork(
       imageUrl,
       childAge,
-      ageGroup
+      ageGroup,
+      mode
     );
 
     // PostgreSQL에 결과 저장 (세션 ID는 클라이언트에서 생성)
