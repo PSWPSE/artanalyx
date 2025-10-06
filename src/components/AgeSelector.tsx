@@ -4,11 +4,10 @@ import { useState } from 'react';
 import { Card } from './ui/card';
 import { AGE_GROUPS } from '@/lib/constants';
 import { useAnalysisStore } from '@/store/analysisStore';
-import { AnalysisMode } from '@/types';
 
 export function AgeSelector() {
   const [selectedAge, setSelectedAge] = useState<number | null>(null);
-  const { setChildAge, analysisMode, setAnalysisMode } = useAnalysisStore();
+  const { setChildAge } = useAnalysisStore();
 
   const handleAgeChange = (age: number) => {
     setSelectedAge(age);
@@ -21,10 +20,6 @@ export function AgeSelector() {
     { ...AGE_GROUPS.child, key: 'child' },
     { ...AGE_GROUPS.elementary, key: 'elementary' },
   ];
-
-  const handleModeChange = (mode: AnalysisMode) => {
-    setAnalysisMode(mode);
-  };
 
   return (
     <Card className="p-6">
@@ -64,48 +59,6 @@ export function AgeSelector() {
           ✓ {selectedAge}세가 선택되었습니다
         </p>
       )}
-
-      {/* 분석 방식 선택 */}
-      <div className="mt-6 pt-6 border-t border-gray-200">
-        <h4 className="text-base font-semibold mb-3 text-gray-900">분석 방식 선택</h4>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <button
-            onClick={() => handleModeChange('deep')}
-            className={`
-              p-4 rounded-lg text-left transition-all duration-200
-              ${analysisMode === 'deep'
-                ? 'bg-gradient-to-br from-purple-500 to-blue-500 text-white shadow-lg scale-105'
-                : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
-              }
-            `}
-          >
-            <div className="font-semibold mb-1">
-              {analysisMode === 'deep' && '✓ '}심층적 연구 분석
-            </div>
-            <div className={`text-xs ${analysisMode === 'deep' ? 'text-white/90' : 'text-gray-500'}`}>
-              전문 용어와 이론을 포함한<br />상세한 학술적 분석
-            </div>
-          </button>
-          
-          <button
-            onClick={() => handleModeChange('simple')}
-            className={`
-              p-4 rounded-lg text-left transition-all duration-200
-              ${analysisMode === 'simple'
-                ? 'bg-gradient-to-br from-green-500 to-teal-500 text-white shadow-lg scale-105'
-                : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
-              }
-            `}
-          >
-            <div className="font-semibold mb-1">
-              {analysisMode === 'simple' && '✓ '}쉽고 이해하기 쉬운 분석
-            </div>
-            <div className={`text-xs ${analysisMode === 'simple' ? 'text-white/90' : 'text-gray-500'}`}>
-              일상 언어로 설명하는<br />쉽고 친근한 분석
-            </div>
-          </button>
-        </div>
-      </div>
     </Card>
   );
 }

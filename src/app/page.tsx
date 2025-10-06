@@ -15,7 +15,6 @@ export default function Home() {
   const {
     uploadedImage,
     childAge,
-    analysisMode,
     currentAnalysis,
     uploadStatus,
     error,
@@ -28,7 +27,7 @@ export default function Home() {
 
   const [progress, setProgress] = useState(0);
 
-  const handleAnalyze = async () => {
+  const handleAnalyze = async (mode: 'deep' | 'simple') => {
     if (!uploadedImage || !childAge) {
       setError('이미지와 나이를 모두 입력해주세요.');
       return;
@@ -61,7 +60,7 @@ export default function Home() {
           imageUrl: uploadedImage,
           childAge,
           ageGroup,
-          analysisMode,
+          analysisMode: mode,
         }),
       });
 
@@ -182,24 +181,45 @@ export default function Home() {
 
             {/* 분석 시작 버튼 */}
             <div className="flex justify-center pt-4">
-              <Button
-                size="lg"
-                onClick={handleAnalyze}
-                disabled={!isReadyToAnalyze || isAnalyzing}
-                className="px-8 py-6 text-base font-semibold bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isAnalyzing ? (
-                  <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    분석 중...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-5 h-5 mr-2" />
-                    AI 분석 시작
-                  </>
-                )}
-              </Button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
+                <Button
+                  size="lg"
+                  onClick={() => handleAnalyze('deep')}
+                  disabled={!isReadyToAnalyze || isAnalyzing}
+                  className="px-6 py-6 text-base font-semibold bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      분석 중...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-5 h-5 mr-2" />
+                      심층적인 분석
+                    </>
+                  )}
+                </Button>
+                
+                <Button
+                  size="lg"
+                  onClick={() => handleAnalyze('simple')}
+                  disabled={!isReadyToAnalyze || isAnalyzing}
+                  className="px-6 py-6 text-base font-semibold bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                      분석 중...
+                    </>
+                  ) : (
+                    <>
+                      <Sparkles className="w-5 h-5 mr-2" />
+                      쉽게 설명한 분석
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
 
             {/* 안내 사항 */}
