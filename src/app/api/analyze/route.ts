@@ -4,6 +4,7 @@ import { prisma } from '@/lib/database';
 import { ERROR_MESSAGES } from '@/lib/constants';
 import { AnalysisRequest } from '@/types';
 import { Prisma } from '@prisma/client';
+import crypto from 'crypto';
 
 // Rate limiting을 위한 간단한 메모리 캐시
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -26,6 +27,12 @@ function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
 
   record.count++;
   return { allowed: true, remaining: limit - record.count };
+}
+
+// 이미지 URL과 분석 조건으로 캐시 키 생성
+function generateCacheKey(imageUrl: string, childAge: number, analysisMode: string): string {
+  const data = `${imageUrl}-${childAge}-${analysisMode}`;
+  return crypto.createHash('sha256').update(data).digest('hex');
 }
 
 export async function POST(request: NextRequest) {
@@ -69,32 +76,66 @@ export async function POST(request: NextRequest) {
     // 연령대 결정
     const ageGroup = determineAgeGroup(childAge);
 
-    // AI 분석 수행
-    const analysisResult = await analyzeChildrenArtwork(
-      imageUrl,
-      childAge,
-      ageGroup,
-      mode
-    );
-
-    // PostgreSQL에 결과 저장 (세션 ID는 클라이언트에서 생성)
-    const sessionId = request.headers.get('x-session-id') || crypto.randomUUID();
+    // 캐시 키 생성
+    const cacheKey = generateCacheKey(imageUrl, childAge, mode);
     
+    // 캐시된 결과 확인 (최근 24시간 이내)
+    const cachedAnalysis = await prisma.analysis.findFirst({
+      where: {
+        imageUrl,
+        childAge,
+        childAgeGroup: ageGroup,
+        createdAt: {
+          gte: new Date(Date.now() - 24 * 60 * 60 * 1000) // 24시간 이내
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+
+    let analysisResult;
+    let fromCache = false;
+
+    if (cachedAnalysis && cachedAnalysis.analysisResult) {
+      // 캐시된 결과 사용
+      console.log('Using cached analysis result for:', imageUrl);
+      analysisResult = cachedAnalysis.analysisResult as any;
+      fromCache = true;
+    } else {
+      // 새로운 AI 분석 수행
+      console.log('Performing new analysis for:', imageUrl);
+      analysisResult = await analyzeChildrenArtwork(
+        imageUrl,
+        childAge,
+        ageGroup,
+        mode
+      );
+      
+      // PostgreSQL에 결과 저장
+      const sessionId = request.headers.get('x-session-id') || crypto.randomUUID();
+      
+      try {
+        await prisma.analysis.create({
+          data: {
+            childAge,
+            childAgeGroup: ageGroup,
+            imageUrl,
+            analysisResult: JSON.parse(JSON.stringify(analysisResult)) as Prisma.InputJsonValue,
+            sessionId,
+          },
+        });
+      } catch (dbError) {
+        console.error('Database save error:', dbError);
+        // DB 저장 실패해도 분석 결과는 반환
+      }
+    }
+
+    // Usage tracking - upsert 처리
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
     try {
-      await prisma.analysis.create({
-        data: {
-          childAge,
-          childAgeGroup: ageGroup,
-          imageUrl,
-          analysisResult: JSON.parse(JSON.stringify(analysisResult)) as Prisma.InputJsonValue,
-          sessionId,
-        },
-      });
-
-      // Usage tracking - upsert 처리
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-
       const existingUsage = await prisma.usageTracking.findUnique({
         where: {
           ipAddress_date: {
@@ -123,13 +164,13 @@ export async function POST(request: NextRequest) {
         });
       }
     } catch (dbError) {
-      console.error('Database error:', dbError);
-      // DB 저장 실패해도 분석 결과는 반환
+      console.error('Usage tracking error:', dbError);
     }
 
     return NextResponse.json({
       success: true,
       data: analysisResult,
+      fromCache,  // 캐시 사용 여부 전달
     }, {
       headers: {
         'X-RateLimit-Remaining': remaining.toString(),

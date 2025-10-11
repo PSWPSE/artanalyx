@@ -26,6 +26,7 @@ export default function Home() {
   } = useAnalysisStore();
 
   const [progress, setProgress] = useState(0);
+  const [isFromCache, setIsFromCache] = useState(false);
 
   const handleAnalyze = async (mode: 'deep' | 'simple') => {
     if (!uploadedImage || !childAge) {
@@ -72,6 +73,7 @@ export default function Home() {
 
       clearInterval(progressInterval);
       setProgress(100);
+      setIsFromCache(result.fromCache || false);
 
       setTimeout(() => {
         setCurrentAnalysis(result.data);
@@ -93,6 +95,7 @@ export default function Home() {
   const handleReset = () => {
     clearAnalysis();
     setProgress(0);
+    setIsFromCache(false);
   };
 
   const isReadyToAnalyze = uploadedImage && childAge && uploadStatus === 'idle';
@@ -249,6 +252,20 @@ export default function Home() {
           </div>
         ) : (
           <div className="space-y-8">
+            {/* 캐시 사용 안내 */}
+            {isFromCache && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                <div className="text-sm">
+                  <p className="font-medium text-blue-900">이전 분석 결과 불러오기</p>
+                  <p className="text-blue-700 mt-1">
+                    같은 그림과 나이로 24시간 이내에 분석한 결과가 있어 저장된 결과를 보여드립니다. 
+                    일관된 분석 결과를 제공하고 분석 시간을 단축시켰습니다.
+                  </p>
+                </div>
+              </div>
+            )}
+            
             {/* 분석 결과 */}
             <AnalysisResult result={currentAnalysis} />
           </div>
