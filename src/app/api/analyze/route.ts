@@ -29,12 +29,6 @@ function checkRateLimit(ip: string): { allowed: boolean; remaining: number } {
   return { allowed: true, remaining: limit - record.count };
 }
 
-// 이미지 URL과 분석 조건으로 캐시 키 생성
-function generateCacheKey(imageUrl: string, childAge: number, analysisMode: string): string {
-  const data = `${imageUrl}-${childAge}-${analysisMode}`;
-  return crypto.createHash('sha256').update(data).digest('hex');
-}
-
 export async function POST(request: NextRequest) {
   try {
     // IP 주소 추출
@@ -76,9 +70,6 @@ export async function POST(request: NextRequest) {
     // 연령대 결정
     const ageGroup = determineAgeGroup(childAge);
 
-    // 캐시 키 생성
-    const cacheKey = generateCacheKey(imageUrl, childAge, mode);
-    
     // 캐시된 결과 확인 (최근 24시간 이내)
     const cachedAnalysis = await prisma.analysis.findFirst({
       where: {
@@ -100,7 +91,7 @@ export async function POST(request: NextRequest) {
     if (cachedAnalysis && cachedAnalysis.analysisResult) {
       // 캐시된 결과 사용
       console.log('Using cached analysis result for:', imageUrl);
-      analysisResult = cachedAnalysis.analysisResult as any;
+      analysisResult = cachedAnalysis.analysisResult;
       fromCache = true;
     } else {
       // 새로운 AI 분석 수행

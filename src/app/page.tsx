@@ -5,7 +5,6 @@ import { Palette, Sparkles, AlertCircle, Loader2 } from 'lucide-react';
 import { ImageUploader } from '@/components/ImageUploader';
 import { AgeSelector } from '@/components/AgeSelector';
 import { AnalysisResult } from '@/components/AnalysisResult';
-import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { useAnalysisStore } from '@/store/analysisStore';
 import { determineAgeGroup } from '@/lib/openai';
