@@ -266,7 +266,7 @@ export default function Home() {
             )}
             
             {/* 분석 결과 */}
-            <AnalysisResult result={currentAnalysis} />
+            <AnalysisResult result={currentAnalysis} onReset={handleReset} />
           </div>
         )}
       </main>

@@ -2,14 +2,15 @@
 
 import { Card } from './ui/card';
 import { AnalysisResult as AnalysisResultType } from '@/types';
-import { Lightbulb, TrendingUp, Target, Heart, BookOpen, Users, Palette, Clock, Calendar, Flag, AlertTriangle, UserCheck, Activity } from 'lucide-react';
+import { Lightbulb, TrendingUp, Target, Heart, BookOpen, Users, Palette, Clock, Calendar, Flag, AlertTriangle, UserCheck, Activity, RefreshCw } from 'lucide-react';
 import { DevelopmentalLevelChart } from './DevelopmentalLevelChart';
 
 interface AnalysisResultProps {
   result: AnalysisResultType;
+  onReset?: () => void;
 }
 
-export function AnalysisResult({ result }: AnalysisResultProps) {
+export function AnalysisResult({ result, onReset }: AnalysisResultProps) {
   const insightIcons = {
     emotional: <Heart className="w-6 h-6 text-red-500" />,
     cognitive: <Lightbulb className="w-6 h-6 text-yellow-500" />,
@@ -34,6 +35,22 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
 
   return (
     <div className="space-y-6">
+      {/* 새 그림 분석하기 버튼 - 상단 */}
+      {onReset && (
+        <div className="flex justify-end">
+          <button
+            onClick={onReset}
+            className="flex items-center gap-2 px-6 py-3 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+            style={{
+              background: 'linear-gradient(to right, rgb(59 130 246), rgb(147 51 234))',
+            }}
+          >
+            <RefreshCw className="w-5 h-5" />
+            새 그림 분석하기
+          </button>
+        </div>
+      )}
+
       {/* 업로드된 그림 및 설명 */}
       <Card className="p-6 md:p-8 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200">
         <h3 className="font-bold text-xl md:text-2xl text-gray-900 mb-4 flex items-center gap-2">
@@ -321,6 +338,25 @@ export function AnalysisResult({ result }: AnalysisResultProps) {
           전문적인 상담이 필요한 경우 아동 심리 전문가와 상담하시는 것을 권장합니다.
         </p>
       </Card>
+
+      {/* 새 그림 분석하기 버튼 - 하단 */}
+      {onReset && (
+        <div className="flex flex-col items-center gap-4 pt-4">
+          <button
+            onClick={onReset}
+            className="flex items-center gap-2 px-8 py-4 text-white font-bold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 text-lg"
+            style={{
+              background: 'linear-gradient(to right, rgb(59 130 246), rgb(147 51 234))',
+            }}
+          >
+            <RefreshCw className="w-6 h-6" />
+            다른 그림 분석하기
+          </button>
+          <p className="text-sm text-gray-600">
+            추가 그림을 분석하여 아이의 발달 과정을 지속적으로 확인해보세요
+          </p>
+        </div>
+      )}
     </div>
   );
 }

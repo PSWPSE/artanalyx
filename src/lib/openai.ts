@@ -92,8 +92,8 @@ function getDeepAnalysisPrompt(): string {
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📝 JSON 응답 형식
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-⚠️ 중요: 반드시 순수 JSON 형식으로만 응답하세요.
+          
+          ⚠️ 중요: 반드시 순수 JSON 형식으로만 응답하세요.
 ⚠️ 모든 전문 용어는 반드시 괄호로 설명을 추가하세요.
 
 {
@@ -240,7 +240,7 @@ function getDeepAnalysisPrompt(): string {
       신체 발달이 자신감, 성취감 등 심리에 미치는 영향을 설명하세요."
   },
   
-  "developmentalLevels": {
+            "developmentalLevels": {
     "emotional": "below/average/above - 이 그림에서 관찰된 근거를 바탕으로 판단",
     "cognitive": "below/average/above - 이 그림에서 관찰된 근거를 바탕으로 판단",
     "creative": "below/average/above - 이 그림에서 관찰된 근거를 바탕으로 판단",
@@ -248,7 +248,7 @@ function getDeepAnalysisPrompt(): string {
     "physical": "below/average/above - 이 그림에서 관찰된 근거를 바탕으로 판단"
   },
   
-  "strengths": [
+            "strengths": [
     "이 그림에서 구체적으로 관찰되는 강점 (각 200-250자):
     
     형식: '[관찰] 이 그림에서 ~한 점은 → [해석] ~한 심리를 보여주며 → [의미] ~한 강점입니다.'
@@ -256,7 +256,7 @@ function getDeepAnalysisPrompt(): string {
     예: '이 그림에서 아이가 다양한 색상을 조화롭게 사용한 점은 풍부한 감정을 적절히 표현할 수 있는 능력을 보여줍니다. 특히 빨간색과 파란색을 함께 사용하면서도 어색하지 않게 배치한 것은 감정 조절 능력이 발달하고 있음을 나타냅니다. 이는 앞으로 복잡한 감정 상황에서도 균형을 유지할 수 있는 중요한 강점으로, Goleman의 감성지능(자신과 타인의 감정을 인식하고 조절하는 능력) 발달의 긍정적 신호입니다.'"
   ],
   
-  "areasForGrowth": [
+            "areasForGrowth": [
     "이 그림에서 관찰되는 발전 가능 영역 (각 200-250자):
     
     형식: '[관찰] 이 그림에서 ~한 점은 → [해석] ~한 부분이 더 발달하면 좋겠다는 의미이며 → [방법] ~하게 도와주시면 좋습니다.'
@@ -264,7 +264,7 @@ function getDeepAnalysisPrompt(): string {
     부정적 표현 금지! '부족하다' 대신 '더 풍부해질 수 있다' 식으로 표현하세요."
   ],
   
-  "recommendations": [
+            "recommendations": [
     "이 그림 분석을 바탕으로 한 맞춤형 추천 (각 200-250자):
     
     형식: '[근거] 이 그림에서 ~한 특징을 보였기 때문에 → [활동] ~한 활동을 추천합니다 → [방법] 구체적 실천 방법 → [효과] 기대 효과'
@@ -282,16 +282,16 @@ function getDeepAnalysisPrompt(): string {
     
     반드시 '이 그림에서...', '그림 속 ~한 표현은...' 등 구체적으로 언급하세요.",
   
-  "actionPlan": {
-    "immediate": [
+            "actionPlan": {
+              "immediate": [
       "이 그림 특성을 고려한 즉시 실천 항목 (각 150-200자):
       '이 그림에서 ~한 점을 고려하여, ~한 활동을 오늘부터 시작해보세요.'"
-    ],
-    "shortTerm": [
+              ],
+              "shortTerm": [
       "이 그림 분석 기반 단기 목표 (각 150-200자):
       '~한 표현을 보였기 때문에, 앞으로 1-3개월간 ~한 변화를 목표로...'"
-    ],
-    "longTerm": [
+              ],
+              "longTerm": [
       "이 아이의 장기 발달 방향 (각 150-200자):
       '현재 ~한 수준이므로, 6-12개월 후에는 ~한 발달을 기대할 수 있습니다.'"
     ]
@@ -332,7 +332,7 @@ function getDeepAnalysisPrompt(): string {
 // 쉽고 이해하기 쉬운 분석 프롬프트
 function getSimpleAnalysisPrompt(): string {
   return `당신은 아동 발달 전문가이자 친근한 육아 상담사입니다.
-
+          
 🎯 핵심 원칙: 이 그림을 자세히 보고, 부모님이 쉽게 이해할 수 있도록 아이의 마음을 설명해주세요.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -401,7 +401,7 @@ function getSimpleAnalysisPrompt(): string {
     
     예시: '이 그림에는 큰 해가 종이 위쪽에 그려져 있어요. 노란색과 주황색으로 칠했고, 아래에는 작은 사람이 있네요. 사람은 검은색 선으로만 그리고 색은 안 칠했어요. 해가 사람보다 훨씬 크고, 선을 진하게 그었어요.'",
   
-  "insights": {
+            "insights": {
     "emotional": "마음과 기분 (300-400자):
       
       [1단계] 이 그림에서 보이는 것:
@@ -514,7 +514,7 @@ function getSimpleAnalysisPrompt(): string {
       손을 잘 쓰는 게 자신감이나 성취감에 어떤 영향을 줄까요?"
   },
   
-  "developmentalLevels": {
+            "developmentalLevels": {
     "emotional": "below/average/above - 이 그림에서 본 것을 바탕으로 판단",
     "cognitive": "below/average/above - 이 그림에서 본 것을 바탕으로 판단",
     "creative": "below/average/above - 이 그림에서 본 것을 바탕으로 판단",
@@ -522,7 +522,7 @@ function getSimpleAnalysisPrompt(): string {
     "physical": "below/average/above - 이 그림에서 본 것을 바탕으로 판단"
   },
   
-  "strengths": [
+            "strengths": [
     "이 그림에서 보이는 좋은 점 (각 120-150자):
     
     형식: '이 그림에서 ~한 점은 → ~한 능력이 있다는 뜻이고 → 이게 왜 좋은지'
@@ -530,7 +530,7 @@ function getSimpleAnalysisPrompt(): string {
     예: '이 그림에서 아이가 여러 색깔을 예쁘게 섞어 쓴 걸 보니 감정을 잘 표현할 줄 아는 것 같아요. 특히 빨간색과 파란색을 같이 써도 어색하지 않게 그린 건 감정 조절을 잘한다는 뜻이에요. 앞으로 어려운 상황에서도 마음을 잘 다스릴 수 있을 거예요.'"
   ],
   
-  "areasForGrowth": [
+            "areasForGrowth": [
     "더 좋아질 수 있는 부분 (각 120-150자):
     
     형식: '이 그림에서 ~한 점은 → ~한 부분을 더 키우면 좋겠다는 뜻이고 → 이렇게 도와주세요'
@@ -538,7 +538,7 @@ function getSimpleAnalysisPrompt(): string {
     '부족하다' 같은 말은 쓰지 마세요! '더 풍부해질 수 있어요' 이렇게 긍정적으로 말하세요."
   ],
   
-  "recommendations": [
+            "recommendations": [
     "이 그림을 보고 추천하는 활동 (각 120-150자):
     
     형식: '이 그림에서 ~한 걸 봤으니 → 이런 활동을 해보세요 → 방법 → 어떤 도움이 될까요'
@@ -556,16 +556,16 @@ function getSimpleAnalysisPrompt(): string {
     
     반드시 '이 그림에서...', '~하게 그린 걸 보니...' 이렇게 구체적으로 말하세요.",
   
-  "actionPlan": {
-    "immediate": [
+            "actionPlan": {
+              "immediate": [
       "오늘부터 바로 할 수 있는 것 (각 80-120자):
       '이 그림에서 ~한 걸 보니, ~한 활동을 오늘부터 해보세요.'"
-    ],
-    "shortTerm": [
+              ],
+              "shortTerm": [
       "1-3개월 동안 할 것 (각 80-120자):
       '~하게 그렸으니, 앞으로 몇 달 동안 ~하면 좋겠어요.'"
-    ],
-    "longTerm": [
+              ],
+              "longTerm": [
       "6-12개월 후 기대할 수 있는 것 (각 80-120자):
       '지금 ~한 수준이니까, 1년쯤 뒤에는 ~하게 자랄 거예요.'"
     ]
